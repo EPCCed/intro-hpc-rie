@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 '''Check that a workshop's index.html metadata is valid.  See the
 docstrings on the checking functions for a summary of the checks.
 '''
@@ -7,8 +9,7 @@ import sys
 import os
 import re
 from datetime import date
-from util import split_metadata, load_yaml, check_unwanted_files
-from reporter import Reporter
+from util import Reporter, split_metadata, load_yaml, check_unwanted_files
 
 # Metadata field patterns.
 EMAIL_PATTERN = r'[^@]+@[^@]+\.[^@]+'
@@ -18,7 +19,7 @@ URL_PATTERN = r'https?://.+'
 
 # Defaults.
 CARPENTRIES = ("dc", "swc", "lc", "cp")
-DEFAULT_CONTACT_EMAIL = 'team@carpentries.org'
+DEFAULT_CONTACT_EMAIL = 'admin@software-carpentry.org'
 
 USAGE = 'Usage: "workshop_check.py path/to/root/directory"'
 
@@ -409,7 +410,7 @@ def main():
     reporter = Reporter()
     check_config(reporter, config_file)
     check_unwanted_files(root_dir, reporter)
-    with open(index_file, encoding='utf-8') as reader:
+    with open(index_file) as reader:
         data = reader.read()
         check_file(reporter, index_file, data)
     reporter.report()
